@@ -13,7 +13,7 @@
       <h1>Campus Snack Bar POS</h1>
       <p class="header-text">Desktop point-of-sale interface for burgers, sandwiches, fries, and snack items.</p>
     </div>
-    <div class="milestone-badge">Milestone 1: Setup and Interface</div>
+    <div class="milestone-badge">Milestone 2: Ordering and Calculations</div>
   </header>
 
   <main class="pos-layout">
@@ -37,14 +37,18 @@
         </div>
       </div>
 
-      <div class="empty-state">
+      <p class="status-message" id="cart-message" aria-live="polite"></p>
+
+      <div class="cart-list" id="cart-list" aria-live="polite"></div>
+
+      <div class="empty-state" id="empty-cart">
         <strong>No items yet</strong>
-        <p>Cart quantity controls, item removal, and automatic totals will be added in Milestone 2.</p>
+        <p>Add snack bar products to begin an order.</p>
       </div>
 
       <div class="total-row">
         <span>Total</span>
-        <strong>PHP 0.00</strong>
+        <strong id="order-total">₱0.00</strong>
       </div>
 
       <div class="payment-box">

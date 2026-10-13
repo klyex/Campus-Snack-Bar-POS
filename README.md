@@ -32,11 +32,16 @@ A simple desktop-friendly point-of-sale system for the IT415 practical exam. The
 
 Open `index.html` in a web browser. No installation, database, login, payment gateway, or deployment setup is required.
 
-## Current Manual Test - Milestone 1
+## Current Manual Test - Milestone 2
 
 1. Open `index.html`.
 2. Confirm the page title shows Campus Snack Bar POS.
 3. Confirm all six required products and prices are visible.
 4. Confirm each product has a visible Add to Cart button.
-5. Confirm the cart summary, payment, and receipt sections are visible as placeholders for the next milestones.
+5. Add Cheeseburger and Soda (Can) to the cart.
+6. Confirm the cart shows each item name, quantity, unit price, subtotal, and total.
+7. Increase Cheeseburger quantity and confirm the subtotal and total update.
+8. Decrease Cheeseburger quantity and confirm the quantity never becomes zero or negative.
+9. Remove Soda (Can) and confirm the total updates.
+10. Confirm the payment and receipt sections remain placeholders for Milestone 3.
 

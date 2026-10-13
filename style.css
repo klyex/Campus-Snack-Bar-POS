@@ -116,6 +116,14 @@ h2 {
   font-weight: 700;
 }
 
+.status-message {
+  min-height: 22px;
+  margin-bottom: 12px;
+  color: var(--brand-dark);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
 .product-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(220px, 1fr));
@@ -186,6 +194,82 @@ button:disabled {
 .empty-state p,
 .receipt-preview p {
   margin-bottom: 0;
+}
+
+.empty-state.is-hidden {
+  display: none;
+}
+
+.cart-list {
+  display: grid;
+  gap: 12px;
+}
+
+.cart-item {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.cart-item-main {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cart-item-name {
+  margin-bottom: 4px;
+  font-weight: 800;
+}
+
+.cart-item-price,
+.cart-item-subtotal {
+  margin-bottom: 0;
+  color: var(--muted);
+  font-size: 0.94rem;
+}
+
+.cart-item-subtotal strong {
+  color: var(--text);
+}
+
+.cart-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.icon-button {
+  min-width: 38px;
+  min-height: 38px;
+  border: 1px solid var(--line);
+  background: #f8fafc;
+  color: var(--text);
+}
+
+.quantity-value {
+  min-width: 28px;
+  text-align: center;
+  font-weight: 800;
+}
+
+.remove-button {
+  min-height: 38px;
+  padding: 0 12px;
+  border: 1px solid #fecaca;
+  background: #fff5f5;
+  color: var(--danger);
 }
 
 .total-row {
