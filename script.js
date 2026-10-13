@@ -111,7 +111,7 @@ function setPaymentMessage(message, type = "") {
 
 function resetReceipt() {
   receiptPreview.classList.remove("has-receipt");
-  receiptPreview.innerHTML = "<p>Receipt details will appear here after a successful payment.</p>";
+  receiptPreview.innerHTML = "<p>Receipt will open after payment.</p>";
   newTransaction.disabled = true;
 }
 

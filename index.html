@@ -7,74 +7,94 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="app-header">
-    <div>
-      <p class="eyebrow">IT415 Practical Exam</p>
-      <h1>Campus Snack Bar POS</h1>
-      <p class="header-text">Desktop point-of-sale interface for burgers, sandwiches, fries, and snack items.</p>
+  <input class="start-toggle" id="start-pos" type="checkbox" aria-label="Start POS">
+  <section class="start-screen" aria-labelledby="start-title">
+    <div class="start-visual" aria-hidden="true">
+      <div class="start-plate">
+        <span class="food-stack burger-icon"></span>
+        <span class="food-stack fries-icon"></span>
+        <span class="food-stack soda-icon"></span>
+      </div>
     </div>
-    <div class="milestone-badge">Milestone 3: Validation and Final Improvements</div>
-  </header>
+    <div class="start-content">
+      <p class="eyebrow">Campus Snack Bar</p>
+      <h1 id="start-title">Modern POS Counter</h1>
+      <p>Fast ordering, clean checkout, and instant receipts for snack bar transactions.</p>
+      <label class="start-button" for="start-pos">Click to Start</label>
+    </div>
+  </section>
 
-  <main class="pos-layout">
-    <section class="panel products-panel" aria-labelledby="products-title">
-      <div class="section-heading">
-        <div>
-          <p class="eyebrow">Menu</p>
-          <h2 id="products-title">Available Products</h2>
+  <div class="app-shell">
+    <header class="app-header">
+      <div>
+        <p class="eyebrow">Campus Snack Bar</p>
+        <h1>Point of Sale</h1>
+      </div>
+      <div class="header-actions">
+        <span class="live-pill">Open Register</span>
+      </div>
+    </header>
+
+    <main class="pos-layout">
+      <section class="panel products-panel" aria-labelledby="products-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Menu</p>
+            <h2 id="products-title">Products</h2>
+          </div>
+          <span class="item-count" id="product-count">0 items</span>
         </div>
-        <span class="item-count" id="product-count">0 items</span>
-      </div>
 
-      <div class="product-grid" id="product-list" aria-live="polite"></div>
-    </section>
+        <div class="product-grid" id="product-list" aria-live="polite"></div>
+      </section>
 
-    <aside class="panel order-panel" aria-labelledby="order-title">
-      <div class="section-heading">
-        <div>
-          <p class="eyebrow">Order</p>
-          <h2 id="order-title">Cart Summary</h2>
+      <aside class="panel order-panel" aria-labelledby="order-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Order</p>
+            <h2 id="order-title">Cart</h2>
+          </div>
         </div>
-      </div>
 
-      <p class="status-message" id="cart-message" aria-live="polite"></p>
+        <p class="status-message" id="cart-message" aria-live="polite"></p>
 
-      <div class="cart-list" id="cart-list" aria-live="polite"></div>
+        <div class="cart-list" id="cart-list" aria-live="polite"></div>
 
-      <div class="empty-state" id="empty-cart">
-        <strong>No items yet</strong>
-        <p>Add snack bar products to begin an order.</p>
-      </div>
-
-      <div class="total-row">
-        <span>Total</span>
-        <strong id="order-total">₱0.00</strong>
-      </div>
-
-      <div class="payment-box">
-        <label for="cash-payment">Cash Payment</label>
-        <input id="cash-payment" type="number" min="0" step="0.01" placeholder="0.00">
-        <p class="helper-text" id="payment-message" aria-live="polite">Enter the cash amount after adding items.</p>
-      </div>
-
-      <button class="primary-button" id="confirm-payment" type="button" disabled>Confirm Payment</button>
-    </aside>
-
-    <section class="panel receipt-panel" aria-labelledby="receipt-title">
-      <div class="section-heading">
-        <div>
-          <p class="eyebrow">Receipt</p>
-          <h2 id="receipt-title">Digital Receipt</h2>
+        <div class="empty-state" id="empty-cart">
+          <strong>No items yet</strong>
+          <p>Add products to begin.</p>
         </div>
-      </div>
 
-      <div class="receipt-preview" id="receipt-preview" aria-live="polite">
-        <p>Receipt details will appear here after a successful payment.</p>
-      </div>
+        <div class="total-row">
+          <span>Total</span>
+          <strong id="order-total">₱0.00</strong>
+        </div>
 
-      <button class="secondary-button" id="new-transaction" type="button" disabled>New Transaction</button>
-    </section>
-  </main>
+        <div class="payment-box">
+          <label for="cash-payment">Cash Payment</label>
+          <input id="cash-payment" type="number" min="0" step="0.01" placeholder="0.00">
+          <p class="helper-text" id="payment-message" aria-live="polite">Ready for payment.</p>
+        </div>
+
+        <button class="primary-button" id="confirm-payment" type="button" disabled>Confirm Payment</button>
+      </aside>
+
+      <section class="panel receipt-panel" aria-labelledby="receipt-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Receipt</p>
+            <h2 id="receipt-title">Digital Receipt</h2>
+          </div>
+        </div>
+
+        <div class="receipt-preview" id="receipt-preview" role="dialog" aria-modal="true" aria-live="polite">
+          <p>Receipt will open after payment.</p>
+        </div>
+
+        <button class="secondary-button" id="new-transaction" type="button" disabled>New Transaction</button>
+      </section>
+    </main>
+  </div>
 
   <script src="script.js"></script>
 </body>
