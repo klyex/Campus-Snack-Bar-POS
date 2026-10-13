@@ -7,17 +7,19 @@ const products = [
   { id: "soda-can", name: "Soda (Can)", price: 25 },
 ];
 
-const productList = document.querySelector("#product-list");
-const productCount = document.querySelector("#product-count");
-const cartList = document.querySelector("#cart-list");
-const emptyCart = document.querySelector("#empty-cart");
-const orderTotal = document.querySelector("#order-total");
-const cartMessage = document.querySelector("#cart-message");
-const cashPayment = document.querySelector("#cash-payment");
-const paymentMessage = document.querySelector("#payment-message");
-const confirmPayment = document.querySelector("#confirm-payment");
-const receiptPreview = document.querySelector("#receipt-preview");
-const newTransaction = document.querySelector("#new-transaction");
+const elements = {
+  productList: document.querySelector("#product-list"),
+  productCount: document.querySelector("#product-count"),
+  cartList: document.querySelector("#cart-list"),
+  emptyCart: document.querySelector("#empty-cart"),
+  orderTotal: document.querySelector("#order-total"),
+  cartMessage: document.querySelector("#cart-message"),
+  cashPayment: document.querySelector("#cash-payment"),
+  paymentMessage: document.querySelector("#payment-message"),
+  confirmPayment: document.querySelector("#confirm-payment"),
+  receiptPreview: document.querySelector("#receipt-preview"),
+  newTransaction: document.querySelector("#new-transaction"),
+};
 
 const cart = new Map();
 let transactionCount = 1;
@@ -28,6 +30,14 @@ function formatCurrency(amount) {
 
 function findProduct(productId) {
   return products.find((product) => product.id === productId);
+}
+
+function getCartItems() {
+  return Array.from(cart.values());
+}
+
+function getItemSubtotal(item) {
+  return item.price * item.quantity;
 }
 
 function createProductCard(product) {
@@ -48,16 +58,16 @@ function createProductCard(product) {
 }
 
 function renderProducts() {
-  productList.innerHTML = "";
+  elements.productList.innerHTML = "";
   products.forEach((product) => {
-    productList.appendChild(createProductCard(product));
+    elements.productList.appendChild(createProductCard(product));
   });
-  productCount.textContent = `${products.length} items`;
+  elements.productCount.textContent = `${products.length} items`;
 }
 
 function getCartTotal() {
-  return Array.from(cart.values()).reduce((total, item) => {
-    return total + item.price * item.quantity;
+  return getCartItems().reduce((total, item) => {
+    return total + getItemSubtotal(item);
   }, 0);
 }
 
@@ -72,7 +82,7 @@ function createCartItem(item) {
         <p class="cart-item-price">${formatCurrency(item.price)} each</p>
       </div>
       <p class="cart-item-subtotal">
-        Subtotal <strong>${formatCurrency(item.price * item.quantity)}</strong>
+        Subtotal <strong>${formatCurrency(getItemSubtotal(item))}</strong>
       </p>
     </div>
     <div class="cart-actions">
@@ -89,40 +99,40 @@ function createCartItem(item) {
 }
 
 function renderCart() {
-  cartList.innerHTML = "";
+  elements.cartList.innerHTML = "";
 
   cart.forEach((item) => {
-    cartList.appendChild(createCartItem(item));
+    elements.cartList.appendChild(createCartItem(item));
   });
 
-  emptyCart.classList.toggle("is-hidden", cart.size > 0);
-  orderTotal.textContent = formatCurrency(getCartTotal());
-  confirmPayment.disabled = cart.size === 0;
+  elements.emptyCart.classList.toggle("is-hidden", cart.size > 0);
+  elements.orderTotal.textContent = formatCurrency(getCartTotal());
+  elements.confirmPayment.disabled = cart.size === 0;
 }
 
 function setCartMessage(message) {
-  cartMessage.textContent = message;
+  elements.cartMessage.textContent = message;
 }
 
 function setPaymentMessage(message, type = "") {
-  paymentMessage.textContent = message;
-  paymentMessage.className = `helper-text ${type}`.trim();
+  elements.paymentMessage.textContent = message;
+  elements.paymentMessage.className = `helper-text ${type}`.trim();
 }
 
 function resetReceipt() {
-  receiptPreview.classList.remove("has-receipt");
-  receiptPreview.innerHTML = "<p>Receipt will open after payment.</p>";
-  newTransaction.disabled = true;
+  elements.receiptPreview.classList.remove("has-receipt");
+  elements.receiptPreview.innerHTML = "<p>Receipt will open after payment.</p>";
+  elements.newTransaction.disabled = true;
 }
 
 function resetPaymentState() {
-  cashPayment.value = "";
+  elements.cashPayment.value = "";
   setPaymentMessage("Enter the cash amount after adding items.");
   resetReceipt();
 }
 
 function clearCompletedTransactionState() {
-  if (!newTransaction.disabled) {
+  if (!elements.newTransaction.disabled) {
     resetPaymentState();
   }
 }
@@ -147,30 +157,31 @@ function addToCart(productId) {
   renderCart();
 }
 
-function increaseQuantity(productId) {
+function updateCartItemQuantity(productId, amount, messageAction) {
   const item = cart.get(productId);
 
   if (!item) {
     return;
   }
 
-  item.quantity += 1;
-  setCartMessage(`${item.name} quantity increased.`);
+  const nextQuantity = item.quantity + amount;
+
+  if (nextQuantity < 1) {
+    return;
+  }
+
+  item.quantity = nextQuantity;
+  setCartMessage(`${item.name} quantity ${messageAction}.`);
   clearCompletedTransactionState();
   renderCart();
 }
 
+function increaseQuantity(productId) {
+  updateCartItemQuantity(productId, 1, "increased");
+}
+
 function decreaseQuantity(productId) {
-  const item = cart.get(productId);
-
-  if (!item || item.quantity <= 1) {
-    return;
-  }
-
-  item.quantity -= 1;
-  setCartMessage(`${item.name} quantity decreased.`);
-  clearCompletedTransactionState();
-  renderCart();
+  updateCartItemQuantity(productId, -1, "decreased");
 }
 
 function removeFromCart(productId) {
@@ -214,32 +225,34 @@ function getTransactionReference() {
   return reference;
 }
 
-function renderReceipt(amountPaid, change, transactionReference) {
-  const items = Array.from(cart.values());
-  const receiptItems = items.map((item) => {
-    return `
-      <div class="receipt-item">
-        <span>${item.quantity} x ${item.name}</span>
-        <strong>${formatCurrency(item.price * item.quantity)}</strong>
-      </div>
-    `;
-  }).join("");
+function createReceiptItem(item) {
+  return `
+    <div class="receipt-item">
+      <span>${item.quantity} x ${item.name}</span>
+      <strong>${formatCurrency(getItemSubtotal(item))}</strong>
+    </div>
+  `;
+}
 
-  receiptPreview.classList.add("has-receipt");
-  receiptPreview.innerHTML = `
+function renderReceipt(amountPaid, change, transactionReference) {
+  const total = getCartTotal();
+  const receiptItems = getCartItems().map(createReceiptItem).join("");
+
+  elements.receiptPreview.classList.add("has-receipt");
+  elements.receiptPreview.innerHTML = `
     <div class="receipt-header">
       <div>
         <p class="receipt-title">Payment Successful</p>
         <p class="receipt-meta">Transaction Ref: ${transactionReference}</p>
       </div>
-      <strong>${formatCurrency(getCartTotal())}</strong>
+      <strong>${formatCurrency(total)}</strong>
     </div>
     <div class="receipt-items">
       ${receiptItems}
     </div>
     <div class="receipt-row receipt-total">
       <span>Total Amount</span>
-      <strong>${formatCurrency(getCartTotal())}</strong>
+      <strong>${formatCurrency(total)}</strong>
     </div>
     <div class="receipt-row">
       <span>Cash Received</span>
@@ -254,31 +267,31 @@ function renderReceipt(amountPaid, change, transactionReference) {
 
 function confirmPaymentTransaction() {
   const total = getCartTotal();
-  const validationMessage = getPaymentValidation(cashPayment.value, total);
+  const validationMessage = getPaymentValidation(elements.cashPayment.value, total);
 
   if (validationMessage) {
     setPaymentMessage(validationMessage, "error");
     return;
   }
 
-  const amountPaid = Number(cashPayment.value);
+  const amountPaid = Number(elements.cashPayment.value);
   const change = amountPaid - total;
   const transactionReference = getTransactionReference();
 
   setPaymentMessage(`Payment successful. Change: ${formatCurrency(change)}.`, "success");
   setCartMessage("Payment confirmed. Receipt generated.");
   renderReceipt(amountPaid, change, transactionReference);
-  newTransaction.disabled = false;
+  elements.newTransaction.disabled = false;
 }
 
 function startNewTransaction() {
   cart.clear();
-  cartMessage.textContent = "";
+  elements.cartMessage.textContent = "";
   resetPaymentState();
   renderCart();
 }
 
-productList.addEventListener("click", (event) => {
+function handleProductListClick(event) {
   const button = event.target.closest("[data-product-id]");
 
   if (!button) {
@@ -286,9 +299,15 @@ productList.addEventListener("click", (event) => {
   }
 
   addToCart(button.dataset.productId);
-});
+}
 
-cartList.addEventListener("click", (event) => {
+const cartActions = {
+  increase: increaseQuantity,
+  decrease: decreaseQuantity,
+  remove: removeFromCart,
+};
+
+function handleCartListClick(event) {
   const button = event.target.closest("[data-action]");
 
   if (!button) {
@@ -298,17 +317,16 @@ cartList.addEventListener("click", (event) => {
   const productId = button.dataset.productId;
   const action = button.dataset.action;
 
-  if (action === "increase") {
-    increaseQuantity(productId);
-  } else if (action === "decrease") {
-    decreaseQuantity(productId);
-  } else if (action === "remove") {
-    removeFromCart(productId);
+  if (cartActions[action]) {
+    cartActions[action](productId);
   }
-});
+}
 
-confirmPayment.addEventListener("click", confirmPaymentTransaction);
-newTransaction.addEventListener("click", startNewTransaction);
+elements.productList.addEventListener("click", handleProductListClick);
+elements.cartList.addEventListener("click", handleCartListClick);
+
+elements.confirmPayment.addEventListener("click", confirmPaymentTransaction);
+elements.newTransaction.addEventListener("click", startNewTransaction);
 
 renderProducts();
 renderCart();
