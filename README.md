@@ -32,7 +32,7 @@ A simple desktop-friendly point-of-sale system for the IT415 practical exam. The
 
 Open `index.html` in a web browser. No installation, database, login, payment gateway, or deployment setup is required.
 
-## Current Manual Test - Milestone 2
+## Current Manual Test - Milestone 3
 
 1. Open `index.html`.
 2. Confirm the page title shows Campus Snack Bar POS.
@@ -43,5 +43,9 @@ Open `index.html` in a web browser. No installation, database, login, payment ga
 7. Increase Cheeseburger quantity and confirm the subtotal and total update.
 8. Decrease Cheeseburger quantity and confirm the quantity never becomes zero or negative.
 9. Remove Soda (Can) and confirm the total updates.
-10. Confirm the payment and receipt sections remain placeholders for Milestone 3.
+10. Add Soda (Can) again so the total is ₱90.00.
+11. Try blank, negative, and insufficient payment values and confirm clear error messages appear.
+12. Enter `100` as the cash payment and confirm the change is ₱10.00.
+13. Confirm the receipt shows item names, quantities, subtotals, total, cash received, change, and transaction reference.
+14. Click New Transaction and confirm the cart, payment input, messages, and receipt are cleared.
 

@@ -13,7 +13,7 @@
       <h1>Campus Snack Bar POS</h1>
       <p class="header-text">Desktop point-of-sale interface for burgers, sandwiches, fries, and snack items.</p>
     </div>
-    <div class="milestone-badge">Milestone 2: Ordering and Calculations</div>
+    <div class="milestone-badge">Milestone 3: Validation and Final Improvements</div>
   </header>
 
   <main class="pos-layout">
@@ -53,11 +53,11 @@
 
       <div class="payment-box">
         <label for="cash-payment">Cash Payment</label>
-        <input id="cash-payment" type="number" min="0" step="0.01" placeholder="0.00" disabled>
-        <p class="helper-text">Payment validation and change computation will be added in Milestone 3.</p>
+        <input id="cash-payment" type="number" min="0" step="0.01" placeholder="0.00">
+        <p class="helper-text" id="payment-message" aria-live="polite">Enter the cash amount after adding items.</p>
       </div>
 
-      <button class="primary-button" type="button" disabled>Confirm Payment</button>
+      <button class="primary-button" id="confirm-payment" type="button" disabled>Confirm Payment</button>
     </aside>
 
     <section class="panel receipt-panel" aria-labelledby="receipt-title">
@@ -68,11 +68,11 @@
         </div>
       </div>
 
-      <div class="receipt-preview">
-        <p>Receipt details will appear here after a successful payment in Milestone 3.</p>
+      <div class="receipt-preview" id="receipt-preview" aria-live="polite">
+        <p>Receipt details will appear here after a successful payment.</p>
       </div>
 
-      <button class="secondary-button" type="button" disabled>New Transaction</button>
+      <button class="secondary-button" id="new-transaction" type="button" disabled>New Transaction</button>
     </section>
   </main>
 

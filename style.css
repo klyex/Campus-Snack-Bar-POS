@@ -8,6 +8,8 @@
   --brand-dark: #14532d;
   --accent: #b45309;
   --danger: #b42318;
+  --danger-bg: #fff5f5;
+  --success-bg: #f0fdf4;
   --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
 }
 
@@ -61,7 +63,8 @@ h2 {
 .header-text,
 .helper-text,
 .empty-state p,
-.receipt-preview p {
+.receipt-preview p,
+.receipt-meta {
   color: var(--muted);
 }
 
@@ -304,6 +307,66 @@ input {
 .helper-text {
   margin-bottom: 0;
   font-size: 0.9rem;
+}
+
+.helper-text.error {
+  color: var(--danger);
+  font-weight: 700;
+}
+
+.helper-text.success {
+  color: var(--brand-dark);
+  font-weight: 700;
+}
+
+.receipt-preview.has-receipt {
+  border-style: solid;
+  background: var(--success-bg);
+}
+
+.receipt-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.receipt-title {
+  margin-bottom: 4px;
+  font-weight: 800;
+}
+
+.receipt-meta {
+  margin-bottom: 0;
+  font-size: 0.92rem;
+}
+
+.receipt-items {
+  display: grid;
+  gap: 8px;
+  margin: 14px 0;
+}
+
+.receipt-item,
+.receipt-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.receipt-item span,
+.receipt-row span {
+  color: var(--muted);
+}
+
+.receipt-total {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  font-size: 1.05rem;
+  font-weight: 800;
 }
 
 .primary-button,
